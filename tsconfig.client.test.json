@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "rootDir": "./client",
+        "outDir": ".tmp/test"
+    },
+    "filesGlob": [
+        "client/{app,components}/**/*.{spec,mock}.ts",
+        "client/test_typings/**/*.d.ts"
+    ],
+    "files": [
+        "client/app/main/main.controller.spec.ts"
+    ]
+}
