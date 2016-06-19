@@ -14,63 +14,60 @@
 </script>
 <div class="container">
   <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-3">
       <form name="queueForm" ng-submit="submitForm(queueForm.$valid)" novalidate>
         <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.chanel.$invalid && queueForm.chanel.$touched) || queueForm.chanel.$error.min}">
           <label>Número de canales abiertos $(m)$</label>
           <input type="number" min="1" class="form-control" placeholder="" name="chanel" ng-model="chanel" required>
           <p ng-show="queueForm.chanel.$invalid && queueForm.chanel.$touched && !queueForm.chanel.$error.min"
-             class="help-block">El campo del núnmero de canales no puede estar vacio</p>
+             class="help-block">El número de canales no puede estar vacio</p>
           <p ng-show="queueForm.chanel.$error.min" class="help-block">El número de canales debe ser un entero mayor a cero</p>
         </fieldset>
-        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.lambda.$invalid && queueForm.lambda.$touched) || queueForm.lambda.$error.pattern}">
+        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.lambda.$invalid && queueForm.lambda.$touched) || queueForm.lambda.$error.max}">
           <label>Tasa de llegadas promedio $(&lambda;)$</label>
-          <input type="number" step="any" class="form-control" placeholder="" name="lambda" ng-model="lamda"
-                 ng-pattern="/^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)/" required>
-          <p ng-show="queueForm.lambda.$invalid && queueForm.lambda.$touched && !queueForm.lambda.$error.pattern"
-             class="help-block">El campo de lambda no puede estar vacio</p>
-          <p ng-show="queueForm.lambda.$error.pattern" class="help-block">Lambda tiene que ser mayor a cero</p>
+          <input type="number" step="any" class="form-control" placeholder="" name="lambda" ng-model="lambda"
+                 max="{{chanel * tasa - .00000001}}" required>
+          <p ng-show="queueForm.lambda.$invalid && queueForm.lambda.$touched && !queueForm.lambda.$error.max"
+             class="help-block">Tasa de legadas promedio no puede estar vacio</p>
+          <p ng-show="queueForm.lambda.$error.max" class="help-block">Se tiene que cumplir que $m&mu; > &lambda;$</p>
         </fieldset>
-        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.tasa.$invalid && queueForm.tasa.$touched) || queueForm.tasa.$error.min}">
+        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.tasa.$invalid && queueForm.tasa.$touched) || queueForm.tasa.$error.pattern}">
           <label>Tasa de servicio promedio $(&mu;)$</label>
-          <input type="number" step="any" min="{{chanel*lamda+.00000001}}" class="form-control" placeholder="" name="tasa" ng-model="tasa"
+          <input type="number" step="any" class="form-control" placeholder="" name="tasa" ng-model="tasa"
                  ng-pattern="/^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)/" required>
-          <p ng-show="queueForm.tasa.$error.min" class="help-block">La tasa promedio debe ser mayor a $m&mu; > &lambda;$</p>
-          <p ng-show="queueForm.tasa.$invalid && queueForm.tasa.$touched && !queueForm.tasa.$error.min"
-             class="help-block">El campo de la tasa promedio no puede estar vacio</p>
+          <p ng-show="queueForm.tasa.$error.pattern" class="help-block">Lambda tiene que ser mayor a cero</p>
+          <p ng-show="queueForm.tasa.$invalid && queueForm.tasa.$touched && !queueForm.tasa.$error.pattern"
+             class="help-block">La tasa promedio no puede estar vacio</p>
         </fieldset>
         <button type="submit" class="btn btn-primary" ng-disabled="queueForm.$invalid">Calcular</button>
       </form>
     </div>
 
     <div class="col-lg-3 col-md-4">
-      <xc-base>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Prob. cero clientes en el sistema</p>
-          <p class="list-group-item-heading"><b>$P_0 = {{p0}}$</b></p>
-        </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Promedio de clientes en el sistema</p>
-          <p class="list-group-item-heading"><b>$L = {{l}}$</b></p>
-        </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Tiempo promedio en el sistema</p>
-          <p class="list-group-item-heading"><b>$W = {{w}}$</b></p>
-        </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Promedio de clientes en la linea</p>
-          <p class="list-group-item-heading"><b>$L_q = {{lq}}$</b></p>
-        </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Tiempo promedio en la cola</p>
-          <p class="list-group-item-heading"><b>$W_q = {{wq}}$</b></p>
-        </div>
-        <div class="list-group-item">
-          <p class="list-group-item-text">Tasa de utilización</p>
-          <p class="list-group-item-heading"><b>$&rho; = {{p}}$</b></p>
-        </div>
-
-      </xc-base>
+      <div class="list-group-item">
+        <p class="list-group-item-text">Prob. cero clientes en el sistema</p>
+        <p class="list-group-item-heading">$P_0 =$&nbsp;<span>{{p0}}</span></p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text">Promedio de clientes en el sistema</p>
+        <p class="list-group-item-heading">$L =$&nbsp;<span>{{l}}</span></p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text">Tiempo promedio en el sistema</p>
+        <p class="list-group-item-heading">$W =$&nbsp;<span>{{w}}</span></p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text">Promedio de clientes en la linea</p>
+        <p class="list-group-item-heading">$L_q =$&nbsp;<span>{{lq}}</span></p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text">Tiempo promedio en la cola</p>
+        <p class="list-group-item-heading">$W_q =$&nbsp;<span>{{wq}}</span></p>
+      </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text">Tasa de utilización</p>
+        <p class="list-group-item-heading">$&rho; =$&nbsp;<span>{{p}}</span></p>
+      </div>
     </div>
 
   </div>

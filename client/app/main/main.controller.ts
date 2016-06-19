@@ -7,21 +7,68 @@ class MainController {
   constructor($http, $scope) {
     this.$http = $http;
     this.awesomeThings = [];
-    $scope.p0="1";
-    $scope.l="2";
-    $scope.w="3";
-    $scope.lq="4";
-    $scope.wq="5";
-    $scope.p="6";
-    // function to submit the form after all validation has occurred
+    $scope.p0 = "NaN";
+    $scope.l = "NaN";
+    $scope.w = "NaN";
+    $scope.lq = "NaN";
+    $scope.wq = "NaN";
+    $scope.p = "NaN";
+    $scope.chanel = "";
+    $scope.lambda = "";
+    $scope.tasa = "";
+
     $scope.submitForm = function(isValid) {
-      // check to make sure the form is completely valid
-      if (isValid) {
-        alert('our form is amazing');
+      if(isValid){
+        $scope.calculatePO();
+        $scope.calculateL();
+        $scope.calculateW();
+        $scope.calculateLQ();
+        $scope.calculateWQ();
+        $scope.calculateP();
       }
     };
+    $scope.calculatePO = function(){
+      var result = 0;
+      var fact = 0;
+      for(var i = 0; i < $scope.chanel; i++){
+        fact = $scope.rFact(i);
+        result = result + (1 / fact) * Math.pow($scope.lambda / $scope.tasa, i);
+      }
+      fact = $scope.rFact($scope.chanel);
+      result = result + (1 / fact) * Math.pow($scope.lambda / $scope.tasa, $scope.chanel) *
+        (($scope.chanel * $scope.tasa) / ($scope.chanel * $scope.tasa - $scope.lambda));
+      result = 1 / result;
+      $scope.p0 = Math.round(result * 1000) / 1000;
+    };
+    $scope.rFact = function(num){
+      var rval = 1;
+      for (var i = 2; i <= num; i++) {
+        rval = rval * i;
+      }
+      return rval;
+    };
+    $scope.calculateL = function(){
+      var result = 0;
+      var fact = 0;
+      fact = $scope.rFact($scope.chanel - 1);
+      result = result + $scope.lambda * $scope.tasa * Math.pow($scope.lambda / $scope.tasa, $scope.chanel) * $scope.p0;
+      result = result / (fact * Math.pow($scope.chanel * $scope.tasa - $scope.lambda, 2));
+      result = result + ($scope.lambda / $scope.tasa);
+      $scope.l = Math.round(result * 1000) / 1000;
+    };
+    $scope.calculateW = function(){
+      var result = 0;
+    };
+    $scope.calculateLQ = function(){
+      var result = 0;
+    };
+    $scope.calculateWQ = function(){
+      var result = 0;
+    };
+    $scope.calculateP = function(){
+      var result = 0;
+    };
   }
-
   $onInit() {
     this.$http.get('/api/things').then(response => {
       this.awesomeThings = response.data;
