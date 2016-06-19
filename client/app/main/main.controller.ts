@@ -73,6 +73,8 @@ class MainController {
     };
     $scope.calculateP = function(){
       var result = 0;
+      result = $scope.lambda / ($scope.chanel * $scope.tasa);
+      $scope.p = Math.round(result * 1000) / 1000;
     };
   }
   $onInit() {
