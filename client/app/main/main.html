@@ -1,12 +1,67 @@
-<header class="hero-unit" id="banner">
+<!--<header class="hero-unit" id="banner">
   <div class="container">
-    <h1>'Hello World!</h1>
+    <h1>'Hello!</h1>
     <p class="lead">Kick-start your next web app with Angular Fullstack</p>
     <img src="assets/images/yeoman.png" alt="I'm Yeoman">
   </div>
-</header>
+</header>-->
 
 <div class="container">
+  <div class="row">
+    <div class="col-lg-5">
+      <form>
+        <fieldset class="form-group">
+          <label for="formGroupExampleInput">Número de anales abiertos</label>
+          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="m">
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="formGroupExampleInput2">Tasa de llegadas promedio</label>
+          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="A">
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="formGroupExampleInput2">Tasa de servicio promedio</label>
+          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="u">
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Calcular</button>
+      </form>
+    </div>
+
+    <div class="col-lg-3 col-md-4">
+      <xc-base>
+        <div class="list-group-item">
+          <p class="list-group-item-text">P(0) clientes en el sistema</p>
+          <p class="list-group-item-heading"><b>P0 = </b></p>
+        </div>
+        <div class="list-group-item">
+          <p class="list-group-item-text">Promedio de clientes en el sistema</p>
+          <p class="list-group-item-heading"><b>L = </b></p>
+        </div>
+        <div class="list-group-item">
+          <p class="list-group-item-text">Tiempo promedio en el sistema</p>
+          <p class="list-group-item-heading"><b>W = </b></p>
+        </div>
+        <div class="list-group-item">
+          <p class="list-group-item-text">Promedio de clientes en la linea</p>
+          <p class="list-group-item-heading"><b>Lq = </b></p>
+        </div>
+        <div class="list-group-item">
+          <p class="list-group-item-text">Tiempo promedio en la cola</p>
+          <p class="list-group-item-heading"><b>Wq = </b></p>
+        </div>
+        <div class="list-group-item">
+          <p class="list-group-item-text">Tasa de utilización</p>
+          <p class="list-group-item-heading"><b>P = </b></p>
+        </div>
+
+      </xc-base>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!--<div class="container">
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">Features:</h1>
@@ -15,4 +70,4 @@
       </ul>
     </div>
   </div>
-</div>
+</div>-->
