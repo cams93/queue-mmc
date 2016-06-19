@@ -58,9 +58,13 @@ class MainController {
     };
     $scope.calculateW = function(){
       var result = 0;
+      result = $scope.l / $scope.lambda;
+      $scope.w = Math.round(result * 1000) / 1000;
     };
     $scope.calculateLQ = function(){
       var result = 0;
+      result = $scope.l - $scope.lambda / $scope.tasa;
+      $scope.lq = Math.round(result * 1000) / 1000;
     };
     $scope.calculateWQ = function(){
       var result = 0;
