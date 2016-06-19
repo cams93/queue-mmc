@@ -23,14 +23,6 @@
              class="help-block">El número de canales no puede estar vacio</p>
           <p ng-show="queueForm.chanel.$error.min" class="help-block">El número de canales debe ser un entero mayor a cero</p>
         </fieldset>
-        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.lambda.$invalid && queueForm.lambda.$touched) || queueForm.lambda.$error.max}">
-          <label>Tasa de llegadas promedio $(&lambda;)$</label>
-          <input type="number" step="any" class="form-control" placeholder="" name="lambda" ng-model="lambda"
-                 max="{{chanel * tasa - .00000001}}" required>
-          <p ng-show="queueForm.lambda.$invalid && queueForm.lambda.$touched && !queueForm.lambda.$error.max"
-             class="help-block">Tasa de legadas promedio no puede estar vacio</p>
-          <p ng-show="queueForm.lambda.$error.max" class="help-block">Se tiene que cumplir que $m&mu; > &lambda;$</p>
-        </fieldset>
         <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.tasa.$invalid && queueForm.tasa.$touched) || queueForm.tasa.$error.pattern}">
           <label>Tasa de servicio promedio $(&mu;)$</label>
           <input type="number" step="any" class="form-control" placeholder="" name="tasa" ng-model="tasa"
@@ -38,6 +30,14 @@
           <p ng-show="queueForm.tasa.$error.pattern" class="help-block">Lambda tiene que ser mayor a cero</p>
           <p ng-show="queueForm.tasa.$invalid && queueForm.tasa.$touched && !queueForm.tasa.$error.pattern"
              class="help-block">La tasa promedio no puede estar vacio</p>
+        </fieldset>
+        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.lambda.$invalid && queueForm.lambda.$touched) || queueForm.lambda.$error.max}">
+          <label>Tasa de llegadas promedio $(&lambda;)$</label>
+          <input type="number" step="any" class="form-control" placeholder="" name="lambda" ng-model="lambda"
+                 max="{{chanel * tasa - .00000001}}" required>
+          <p ng-show="queueForm.lambda.$invalid && queueForm.lambda.$touched && !queueForm.lambda.$error.max"
+             class="help-block">Tasa de legadas promedio no puede estar vacio</p>
+          <p ng-show="queueForm.lambda.$error.max" class="help-block">Se tiene que cumplir que $m&mu; > &lambda;$</p>
         </fieldset>
         <button type="submit" class="btn btn-primary" ng-disabled="queueForm.$invalid">Calcular</button>
       </form>
