@@ -68,6 +68,8 @@ class MainController {
     };
     $scope.calculateWQ = function(){
       var result = 0;
+      result = $scope.lq / $scope.lambda;
+      $scope.wq = Math.round(result * 1000) / 1000;
     };
     $scope.calculateP = function(){
       var result = 0;
