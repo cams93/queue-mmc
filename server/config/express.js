@@ -20,18 +20,6 @@ import session from 'express-session';
 export default function(app) {
   var env = app.get('env');
 
-  if (env === 'development' || env === 'test') {
-    app.use(express.static(path.join(config.root, '.tmp')));
-  }
-
-  if (env === 'production') {
-    app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
-  }
-
-  app.set('appPath', path.join(config.root, 'client'));
-  app.use(express.static(app.get('appPath')));
-  app.use(morgan('dev'));
-
   app.set('views', config.root + '/server/views');
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
@@ -54,7 +42,7 @@ export default function(app) {
    * Lusca - express server security
    * https://github.com/krakenjs/lusca
    */
-  if (env !== 'test' && !process.env.SAUCE_USERNAME) {
+  if ('test' !== env) {
     app.use(lusca({
       csrf: {
         angular: true
@@ -69,17 +57,22 @@ export default function(app) {
     }));
   }
 
+  app.set('appPath', path.join(config.root, 'client'));
+
+  if ('production' === env) {
+    app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
+    app.use(express.static(app.get('appPath')));
+    app.use(morgan('dev'));
+  }
+
   if ('development' === env) {
-    app.use(require('connect-livereload')({
-      ignore: [
-        /^\/api\/(.*)/,
-        /\.js(\?.*)?$/, /\.css(\?.*)?$/, /\.svg(\?.*)?$/, /\.ico(\?.*)?$/, /\.woff(\?.*)?$/,
-        /\.png(\?.*)?$/, /\.jpg(\?.*)?$/, /\.jpeg(\?.*)?$/, /\.gif(\?.*)?$/, /\.pdf(\?.*)?$/
-      ]
-    }));
+    app.use(require('connect-livereload')());
   }
 
   if ('development' === env || 'test' === env) {
+    app.use(express.static(path.join(config.root, '.tmp')));
+    app.use(express.static(app.get('appPath')));
+    app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }
 }

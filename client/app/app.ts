@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mmcApp', [
-  'mmcApp.constants',
+angular.module('queueApp', [
+  'queueApp.constants',
   'ngCookies',
   'ngResource',
   'ngSanitize',

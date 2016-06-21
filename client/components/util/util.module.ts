@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('mmcApp.util', []);
+angular.module('queueApp.util', []);

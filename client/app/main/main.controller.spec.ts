@@ -3,7 +3,7 @@
 describe('Component: mainComponent', function() {
 
   // load the controller's module
-  beforeEach(module('mmcApp'));
+  beforeEach(module('queueApp'));
 
   var scope;
   var mainComponent;

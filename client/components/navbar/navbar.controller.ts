@@ -12,12 +12,12 @@ class NavbarController {
 
   constructor($location) {
     this.$location = $location;
-  }
+    }
 
   isActive(route) {
     return route === this.$location.path();
   }
 }
 
-angular.module('mmcApp')
+angular.module('queueApp')
   .controller('NavbarController', NavbarController);

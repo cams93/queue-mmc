@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mmcApp')
+angular.module('queueApp')
   .factory('Modal', function($rootScope, $uibModal) {
     /**
      * Opens a modal

@@ -1,5 +1,5 @@
 {
-  "name": "mmc",
+  "name": "queue",
   "version": "0.0.0",
   "dependencies": {
     "angular": "~1.5.0",

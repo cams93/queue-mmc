@@ -2,12 +2,11 @@
     "compilerOptions": {
         "sourceMap": true,
         "rootDir": "./client",
-        "outDir": ".tmp",
-        "target": "ES5"
+        "outDir": ".tmp"
     },
     "filesGlob": [
         "client/{app,components}/**/!(*.spec).ts",
-        "typings/main.d.ts"
+        "client/typings/**/*.d.ts"
     ],
     "files": [
         "client/app/app.ts",
@@ -19,6 +18,10 @@
         "client/components/navbar/navbar.directive.ts",
         "client/components/util/util.module.ts",
         "client/components/util/util.service.ts",
-        "typings/main.d.ts"
+        "client/typings/angularjs/angular.d.ts",
+        "client/typings/jquery/jquery.d.ts",
+        "client/typings/lodash/lodash.d.ts",
+        "client/typings/socket.io-client/socket.io-client.d.ts",
+        "client/typings/tsd.d.ts"
     ]
 }

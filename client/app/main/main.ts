@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mmcApp')
+angular.module('queueApp')
   .config(function($routeProvider) {
     $routeProvider
       .when('/', {
