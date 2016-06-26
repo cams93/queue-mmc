@@ -26,7 +26,7 @@
         </fieldset>
         <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.tasa.$invalid && queueForm.tasa.$touched) || queueForm.tasa.$error.pattern}">
           <label>Tasa de servicio promedio $(&mu;)$</label>
-          <input type="number" step="any" class="form-control" placeholder="" name="tasa" ng-model="tasa"
+          <input id="tasa" type="number" step="any" class="form-control" placeholder="" name="tasa" ng-model="tasa"
                  ng-pattern="/^([0-9]*[1-9][0-9]*(\.[0-9]+)?|[0]+\.[0-9]*[1-9][0-9]*)/" required>
           <p ng-show="queueForm.tasa.$error.pattern" class="help-block">Lambda tiene que ser mayor a cero</p>
           <p ng-show="queueForm.tasa.$invalid && queueForm.tasa.$touched && !queueForm.tasa.$error.pattern"
@@ -34,7 +34,7 @@
         </fieldset>
         <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.lambda.$invalid && queueForm.lambda.$touched) || queueForm.lambda.$error.max}">
           <label>Tasa de llegadas promedio $(&lambda;)$</label>
-          <input type="number" step="any" class="form-control" placeholder="" name="lambda" ng-model="lambda"
+          <input id="lambda" type="number" step="any" class="form-control" placeholder="" name="lambda" ng-model="lambda"
                  max="{{chanel * tasa - .00000001}}" required>
           <p ng-show="queueForm.lambda.$invalid && queueForm.lambda.$touched && !queueForm.lambda.$error.max"
              class="help-block">Tasa de legadas promedio no puede estar vacio</p>
@@ -67,7 +67,7 @@
       </div>
       <div class="list-group-item">
         <p class="list-group-item-text">Tasa de utilización</p>
-        <p class="list-group-item-heading">$&rho; =$&nbsp;<span>{{p}}</span></p>
+        <p class="list-group-item-heading">$&rho; =$&nbsp;<span id="p">{{p}}</span></p>
       </div>
     </div>
     <div class="col-lg-6">
@@ -83,54 +83,72 @@
   var renderer = PIXI.autoDetectRenderer(500, 410,{backgroundColor : 0x1099bb});
 
   function doFunction(){
-    var servers = document.getElementById('server').value;
-    var $container = $('#container');
-    $container.append(renderer.view);
-    // create the root of the scene graph
-    var stage = new PIXI.Container();
+    setTimeout(function (){
 
-    // create a texture from an image path
-    var texture = PIXI.Texture.fromImage('assets/images/bunny.png');
+      var $scope = $('p').scope();
+      var servers = document.getElementById('server').value;
+      var tasa = document.getElementById('tasa').value;
+      var lambda = document.getElementById('lambda').value;
 
-    // create a new Sprite using the texture
-    var bunny = new PIXI.Sprite(texture);
+      var $p0 = $scope.op0;
+      var $l = $scope.ol;
+      var $w = $scope.ow;
+      var $lq = $scope.olq;
+      var $wq = $scope.owq;
+      var $p = $scope.op;
 
-    // center the sprite's anchor point
-    bunny.anchor.x = 0.5;
-    bunny.anchor.y = 0.5;
+      console.log($p0);
+      console.log($p);
 
-    // move the sprite to the center of the screen
-    bunny.position.x = 200;
-    bunny.position.y = 150;
 
-    stage.addChild(bunny);
+      var $container = $('#container');
+      $container.append(renderer.view);
+      // create the root of the scene graph
+      var stage = new PIXI.Container();
 
-    var offset = 400/servers;
-    for (var i = 0; i < servers; i++) {
-      var monster = PIXI.Sprite.fromImage('assets/images/eggHead.png');
-      monster.anchor.x = 0.5;
-      monster.anchor.y = 0.5;
-      monster.position.x = 450;
-      monster.position.y = offset * i + 45;
-      monster.scale.x = 0.4;
-      monster.scale.y = 0.4;
-      stage.addChild(monster);
-    }
-    
-    // start animating
-    animate();
-    function animate() {
-      requestAnimationFrame(animate);
+      // create a texture from an image path
+      var texture = PIXI.Texture.fromImage('assets/images/bunny.png');
 
-      // just for fun, let's rotate mr rabbit a little
-      bunny.rotation += 0.1;
+      // create a new Sprite using the texture
+      var bunny = new PIXI.Sprite(texture);
 
-      // render the container
-      renderer.render(stage);
-    }
+      // center the sprite's anchor point
+      bunny.anchor.x = 0.5;
+      bunny.anchor.y = 0.5;
+
+      // move the sprite to the center of the screen
+      bunny.position.x = 200;
+      bunny.position.y = 150;
+
+      stage.addChild(bunny);
+
+      var offset = 400/servers;
+      for (var i = 0; i < servers; i++) {
+        var monster = PIXI.Sprite.fromImage('assets/images/eggHead.png');
+        monster.anchor.x = 0.5;
+        monster.anchor.y = 0.5;
+        monster.position.x = 450;
+        monster.position.y = offset * i + 45;
+        monster.scale.x = 0.4;
+        monster.scale.y = 0.4;
+        stage.addChild(monster);
+      }
+
+      // start animating
+      animate();
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // just for fun, let's rotate mr rabbit a little
+        bunny.rotation += 0.1;
+
+        // render the container
+        renderer.render(stage);
+      }
+
+    }, 300);
+
   }
-
-
 
 
 </script>

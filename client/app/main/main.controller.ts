@@ -22,6 +22,7 @@ class MainController {
     $scope.chanel = '';
     $scope.lambda = '';
     $scope.tasa = '';
+    $scope.start = false;
 
     $scope.submitForm = function (isValid) {
       if (isValid) {
@@ -87,6 +88,7 @@ class MainController {
       result = $scope.lambda / ($scope.chanel * $scope.tasa);
       $scope.op = result;
       $scope.p = Math.round(result * 1000) / 1000;
+      $scope.start = true;
     };
   }
 
