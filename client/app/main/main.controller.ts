@@ -7,7 +7,7 @@ class MainController {
   constructor($http, $scope) {
     this.$http = $http;
     this.awesomeThings = [];
-	$scope.p0 = 'NaN';
+  	$scope.p0 = 'NaN';
     $scope.l = 'NaN';
     $scope.w = 'NaN';
     $scope.lq = 'NaN';

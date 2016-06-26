@@ -12,13 +12,14 @@
 <script type="text/javascript" async
         src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
 </script>
+
 <div class="container">
   <div class="row">
     <div class="col-lg-3">
       <form name="queueForm" ng-submit="submitForm(queueForm.$valid)" novalidate>
         <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.chanel.$invalid && queueForm.chanel.$touched) || queueForm.chanel.$error.min}">
           <label>Número de canales abiertos $(m)$</label>
-          <input type="number" min="1" class="form-control" placeholder="" name="chanel" ng-model="chanel" required>
+          <input id="server" type="number" min="1" class="form-control" placeholder="" name="chanel" ng-model="chanel" required>
           <p ng-show="queueForm.chanel.$invalid && queueForm.chanel.$touched && !queueForm.chanel.$error.min"
              class="help-block">El número de canales no puede estar vacio</p>
           <p ng-show="queueForm.chanel.$error.min" class="help-block">El número de canales debe ser un entero mayor a cero</p>
@@ -39,11 +40,11 @@
              class="help-block">Tasa de legadas promedio no puede estar vacio</p>
           <p ng-show="queueForm.lambda.$error.max" class="help-block">Se tiene que cumplir que $m&mu; > &lambda;$</p>
         </fieldset>
-        <button type="submit" class="btn btn-primary" ng-disabled="queueForm.$invalid">Calcular</button>
+        <button id="clickMe" onclick="doFunction();" type="submit" class="btn btn-primary" ng-disabled="queueForm.$invalid">Calcular</button>
       </form>
     </div>
 
-    <div class="col-lg-3 col-md-4">
+    <div class="col-lg-3">
       <div class="list-group-item">
         <p class="list-group-item-text">Prob. cero clientes en el sistema</p>
         <p class="list-group-item-heading">$P_0 =$&nbsp;<span>{{p0}}</span></p>
@@ -69,9 +70,70 @@
         <p class="list-group-item-heading">$&rho; =$&nbsp;<span>{{p}}</span></p>
       </div>
     </div>
+    <div class="col-lg-6">
+
+      <div id="container">
+      </div>
+    </div>
 
   </div>
 </div>
+
+<script type="text/javascript">
+  var renderer = PIXI.autoDetectRenderer(500, 410,{backgroundColor : 0x1099bb});
+
+  function doFunction(){
+    var servers = document.getElementById('server').value;
+    var $container = $('#container');
+    $container.append(renderer.view);
+    // create the root of the scene graph
+    var stage = new PIXI.Container();
+
+    // create a texture from an image path
+    var texture = PIXI.Texture.fromImage('assets/images/bunny.png');
+
+    // create a new Sprite using the texture
+    var bunny = new PIXI.Sprite(texture);
+
+    // center the sprite's anchor point
+    bunny.anchor.x = 0.5;
+    bunny.anchor.y = 0.5;
+
+    // move the sprite to the center of the screen
+    bunny.position.x = 200;
+    bunny.position.y = 150;
+
+    stage.addChild(bunny);
+
+    var offset = 400/servers;
+    for (var i = 0; i < servers; i++) {
+      var monster = PIXI.Sprite.fromImage('assets/images/eggHead.png');
+      monster.anchor.x = 0.5;
+      monster.anchor.y = 0.5;
+      monster.position.x = 450;
+      monster.position.y = offset * i + 45;
+      monster.scale.x = 0.4;
+      monster.scale.y = 0.4;
+      stage.addChild(monster);
+    }
+    
+    // start animating
+    animate();
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // just for fun, let's rotate mr rabbit a little
+      bunny.rotation += 0.1;
+
+      // render the container
+      renderer.render(stage);
+    }
+  }
+
+
+
+
+</script>
 
 
 
