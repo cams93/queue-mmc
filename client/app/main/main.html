@@ -1,10 +1,4 @@
-<!--<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Hello!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>-->
+
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 </script>
@@ -15,12 +9,12 @@
   <div class="row">
     <div class="col-lg-3">
       <form name="queueForm" ng-submit="submitForm(queueForm.$valid)" novalidate>
-        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.chanel.$invalid && queueForm.chanel.$touched) || queueForm.chanel.$error.min}">
+        <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.chanel.$invalid && queueForm.chanel.$touched) || queueForm.chanel.$error.min  || queueForm.chanel.$error.max}">
           <label>Número de canales abiertos $(m)$</label>
-          <input id="server" type="number" min="1" class="form-control" placeholder="" name="chanel" ng-model="chanel" required>
-          <p ng-show="queueForm.chanel.$invalid && queueForm.chanel.$touched && !queueForm.chanel.$error.min"
+          <input id="server" type="number" min="1" max="6" class="form-control" placeholder="" name="chanel" ng-model="chanel" required>
+          <p ng-show="queueForm.chanel.$invalid && queueForm.chanel.$touched && !queueForm.chanel.$error.min && !queueForm.chanel.$error.max"
              class="help-block">El número de canales no puede estar vacio</p>
-          <p ng-show="queueForm.chanel.$error.min" class="help-block">El número de canales debe ser un entero mayor a cero</p>
+          <p ng-show="queueForm.chanel.$error.min || queueForm.chanel.$error.max" class="help-block">El número de canales debe ser un entero mayor a cero y maximo 6</p>
         </fieldset>
         <fieldset class="form-group" ng-class="{ 'has-error': (queueForm.tasa.$invalid && queueForm.tasa.$touched) || queueForm.tasa.$error.pattern}">
           <label>Tasa de servicio promedio $(&mu;)$</label>
@@ -38,7 +32,7 @@
              class="help-block">Tasa de legadas promedio no puede estar vacio</p>
           <p ng-show="queueForm.lambda.$error.max" class="help-block">Se tiene que cumplir que $m&mu; > &lambda;$</p>
         </fieldset>
-        <button id="clickMe" onclick="doFunction();" type="submit" class="btn btn-primary" ng-disabled="queueForm.$invalid">Calcular</button>
+        <button id="clickMe" onclick="doFunction();" type="submit" class="btn btn-primary" ng-disabled="queueForm.$invalid || start" ng-click="activate()">Calcular</button>
       </form>
     </div>
 
@@ -82,7 +76,6 @@
   // Exponential random number generator
   // Time until next arrival
   function randomExponential(rate, randomUniform) {
-    // http://en.wikipedia.org/wiki/Exponential_distribution#Generating_exponential_variates
     rate = rate || 1;
 
     // Allow to pass a random uniform value or function
@@ -94,20 +87,16 @@
     return -Math.log(U)/rate;
   }
 
-  var renderer = PIXI.autoDetectRenderer(500, 410,{backgroundColor : 0x1099bb});
-
-  var monster = [];
-  var pos = [];
-  var clients = [];
-  var queueTime = [];
-  var indexes = [];
-  var index;
-  var state = [];
-  j = 0;
-  var busy = [0,0,0,0,0,0,0,0,0,0,0];
-
   function doFunction(){
     setTimeout(function (){
+      var monster = [];
+      var pos = [];
+      var clients = [];
+      var indexes = [];
+      var index;
+      var state = [];
+      j = 0;
+      var busy = [0,0,0,0,0,0,0,0,0,0,0];
 
       var $scope = $('p').scope();
       var servers = document.getElementById('server').value;
@@ -121,8 +110,11 @@
       var $wq = $scope.owq;
       var $p = $scope.op;
 
-      console.log($p0);
-      console.log($p);
+      var waitTime = $w - $wq;
+      var lam = randomExponential(1/(1000 * lambda));
+      var wait = randomExponential(1/(1000 * waitTime));
+
+      var renderer = PIXI.autoDetectRenderer(500, 430,{backgroundColor : 0x1099bb});
 
       var $container = $('#container');
       $container.append(renderer.view);
@@ -142,39 +134,35 @@
         stage.addChild(monster[i]);
       }
 
-      setInterval(function(){
+      var myFunction = function(){
         index = Math.floor(Math.random() * servers);
         clients[j] = PIXI.Sprite.fromImage('assets/images/bunny.png');
         clients[j].anchor.x = 0.5;
         clients[j].anchor.y = 0.5;
-        clients[j].position.x = 45;
+        clients[j].position.x = 0;
         clients[j].position.y = pos[index];
-       // queueTime[j] = randomExponential($wq);
         indexes[j] = index;
         state[j] = 0;
         stage.addChild(clients[j]);
         j++;
-      }, 500);
+        clearInterval(interval);
+        lam = randomExponential(1/(1000 * lambda));
+        interval = setInterval(myFunction, lam);
+      };
+      var interval = setInterval(myFunction, lam);
 
       clientLoop();
       function clientLoop() {
         requestAnimationFrame(clientLoop);
         for(let i = 0; i < clients.length; i++){
-          if(clients[i].position.x < (400 - 30 * busy[indexes[i]])){
-            clients[i].position.x += 4;
+          if(clients[i].position.x <= (400 - (28 * busy[indexes[i]]))){
+            clients[i].position.x += 2;
           }
-          else if(clients[i].position.x > (400 - 30 * busy[indexes[i]])){
+          else if(clients[i].position.x >= 400){
             if(state[i] == 0){
+              wait = randomExponential(1/(1000 * waitTime));
               busy[indexes[i]]++;
-              doing(i);
               state[i] = 1;
-            }
-            else if(state[i] == 1){
-              state[i] = 2;
-            }
-          }
-          if(clients[i].position.x > 400){
-            if(state[i] == 2) {
               exit(i);
             }
           }
@@ -182,35 +170,12 @@
         renderer.render(stage);
       }
 
+      function exit(i){
+        setTimeout(function (){
+          clients[i].position.x = 1000;
+          busy[indexes[i]]--;
+        }, wait);
+      }
     }, 300);
-
-    function doing(i){
-      state[i]=2;
-      setTimeout(function (){
-        //clients[i].x = 600;
-        busy[indexes[i]]--;
-      }, 1000);
-    }
-    function exit(i){
-      setTimeout(function (){
-        clients[i].x = 600;
-      }, 1000);
-    }
-
   }
-
-
 </script>
-
-
-
-<!--<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in $ctrl.awesomeThings">
-        <li><a href="#" uib-tooltip="{{thing.info}}">{{thing.name}}</a></li>
-      </ul>
-    </div>
-  </div>
-</div>-->

@@ -24,6 +24,12 @@ class MainController {
     $scope.tasa = '';
     $scope.start = false;
 
+    $scope.activate = function(){
+      setTimeout(function (){
+        $scope.start = true;
+      }, 300);
+    };
+
     $scope.submitForm = function (isValid) {
       if (isValid) {
         $scope.calculatePO();
