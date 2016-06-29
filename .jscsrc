@@ -2,6 +2,7 @@
   "excludeFiles": [
     "client/app/app.constant.js"
   ],
+  "esnext": true,
   "maximumLineLength": {
     "value": 100,
     "allowComments": true,

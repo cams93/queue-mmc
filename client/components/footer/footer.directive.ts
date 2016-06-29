@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mmcApp')
+angular.module('queueApp')
   .directive('footer', function() {
     return {
       templateUrl: 'components/footer/footer.html',

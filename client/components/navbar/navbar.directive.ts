@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mmcApp')
+angular.module('queueApp')
   .directive('navbar', () => ({
     templateUrl: 'components/navbar/navbar.html',
     restrict: 'E',

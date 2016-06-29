@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('mmcApp', [
-  'mmcApp.constants',
+angular.module('queueApp', [
+  'queueApp.constants',
   'ngCookies',
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider

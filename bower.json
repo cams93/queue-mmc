@@ -1,5 +1,5 @@
 {
-  "name": "mmc",
+  "name": "queue",
   "version": "0.0.0",
   "dependencies": {
     "angular": "~1.5.0",
@@ -13,7 +13,10 @@
     "angular-route": "~1.5.0",
     "angular-bootstrap": "~1.1.2",
     "font-awesome": ">=4.1.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "pixi.js": "pixi#^3.0.11",
+    "d3-random": "^1.0.0",
+    "d3": "^3.5.17"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0"
